@@ -28,12 +28,41 @@ namespace WebAddressbookTests
         }
 
 
-        public GroupHelper Remove()
+        public GroupHelper Remove(int v)
         {
             manager.Navigator.OpenGroupPage();
-            SelectGroup();
+            SelectGroup(v);
             RemoveGroup();
             manager.Navigator.OpenGroupPage();
+            return this;
+        }
+
+        public GroupHelper Modify(int v, GroupData newData)
+        {
+            manager.Navigator.OpenGroupPage();
+            SelectGroup(v);
+            InitGroupModification();
+            FillGroup(newData);
+            SubmitGroupModification();
+            manager.Navigator.OpenGroupPage();
+            return this;
+        }
+
+        public GroupHelper SelectGroup(int index)
+        {
+            driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
+            return this;
+        }
+
+        public GroupHelper SubmitGroupModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+
+        public GroupHelper InitGroupModification()
+        {
+            driver.FindElement(By.Name("edit")).Click();
             return this;
         }
 
