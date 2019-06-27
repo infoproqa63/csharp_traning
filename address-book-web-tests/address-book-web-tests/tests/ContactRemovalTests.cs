@@ -1,19 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using System.Threading;
 using NUnit.Framework;
+
 
 namespace WebAddressbookTests
 {
-    class ContactRemovalTests : TestBase
+    [TestFixture]
+    public class ContactRemovalTests : AuthTestBase
     {
-
         [Test]
         public void ContactRemovalTest()
         {
-            app.Contact.Remove(1);
+
+            ContactData oldData = new ContactData("Петр для удаления");
+            oldData.LastName = "Петров для удаления";
+
+            app.Contact.Remove(1, oldData);
+
         }
     }
 }

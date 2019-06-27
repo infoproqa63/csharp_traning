@@ -1,21 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Text.RegularExpressions;
+using System.Threading;
 using NUnit.Framework;
+
 
 namespace WebAddressbookTests
 {
-    class GroupModificationTests : TestBase
+    [TestFixture]
+    public class GroupModificationTests : AuthTestBase
     {
         [Test]
         public void GroupModificationTest()
         {
-            GroupData newData = new GroupData("zzz");
-            newData.Header = "ttt";
-            newData.Footer = "qqq";
-            app.Group.Modify(1, newData);
+            GroupData oldData = new GroupData("имя группы для переименования");
+            oldData.Header = "хедер переименования";
+            oldData.Footer = "футер переименования";
+
+            GroupData newData = new GroupData("имя группы");
+            newData.Header = "хедер";
+            newData.Footer = "футер";
+
+            app.Group.Modify(1, oldData, newData);
 
         }
     }

@@ -12,7 +12,7 @@ namespace WebAddressbookTests
     public class GroupHelper : HelperBase
     {
 
-        public GroupHelper(ApplicationManager manager) : base(manager)
+        public GroupHelper(ApplicationManager manager): base (manager)
         {
         }
 
@@ -27,19 +27,15 @@ namespace WebAddressbookTests
             return this;
         }
 
-
-        public GroupHelper Remove(int v)
+        public GroupHelper Modify(int v, GroupData oldData, GroupData newData)
         {
-            manager.Navigator.OpenGroupPage();
-            SelectGroup(v);
-            RemoveGroup();
-            manager.Navigator.OpenGroupPage();
-            return this;
-        }
 
-        public GroupHelper Modify(int v, GroupData newData)
-        {
             manager.Navigator.OpenGroupPage();
+            if (IsCheckedElement()==false)
+            {
+                Create(oldData);
+            }
+                        
             SelectGroup(v);
             InitGroupModification();
             FillGroup(newData);
@@ -48,21 +44,16 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public GroupHelper SelectGroup(int index)
+        public GroupHelper Remove(int v, GroupData oldData)
         {
-            driver.FindElement(By.XPath("//div[@id='content']/form/span[" + index + "]/input")).Click();
-            return this;
-        }
-
-        public GroupHelper SubmitGroupModification()
-        {
-            driver.FindElement(By.Name("update")).Click();
-            return this;
-        }
-
-        public GroupHelper InitGroupModification()
-        {
-            driver.FindElement(By.Name("edit")).Click();
+            manager.Navigator.OpenGroupPage();
+            if (IsCheckedElement() == false)
+            {
+                Create(oldData);
+            }
+            SelectGroup(v);
+            RemoveGroup();
+            manager.Navigator.OpenGroupPage();
             return this;
         }
 
@@ -78,30 +69,45 @@ namespace WebAddressbookTests
             return this;
         }
 
-        public GroupHelper SelectGroup()
+        public GroupHelper SelectGroup(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[3]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]'])["+ index +"]")).Click();
             return this;
         }
 
         public GroupHelper FillGroup(GroupData group)
         {
-            driver.FindElement(By.Name("group_name")).Click();
-            driver.FindElement(By.Name("group_name")).Clear();
-            driver.FindElement(By.Name("group_name")).SendKeys(group.Name);
-            driver.FindElement(By.Name("group_header")).Click();
-            driver.FindElement(By.Name("group_header")).Clear();
-            driver.FindElement(By.Name("group_header")).SendKeys(group.Header);
-            driver.FindElement(By.Name("group_footer")).Click();
-            driver.FindElement(By.Name("group_footer")).Clear();
-            driver.FindElement(By.Name("group_footer")).SendKeys(group.Footer);
+            //driver.FindElement(By.Name("group_name")).Click();
+            Type(By.Name("group_name"), group.Name);
+            Type(By.Name("group_header"), group.Header);
+            Type(By.Name("group_footer"), group.Footer);
             return this;
         }
 
+        
         public GroupHelper SubmitGroup()
         {
             driver.FindElement(By.Name("submit")).Click();
             return this;
         }
+
+        public GroupHelper InitGroupModification()
+        {
+            driver.FindElement(By.Name("edit")).Click();
+            return this;
+        }
+
+        public GroupHelper SubmitGroupModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+
+        public bool IsCheckedElement()
+        {
+            return IsElementPresent(By.XPath("//*[@id='content']/form/span/input"));
+            
+        }
+                
     }
 }
