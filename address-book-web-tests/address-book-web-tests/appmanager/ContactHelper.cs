@@ -29,11 +29,7 @@ namespace WebAddressbookTests
 
         public ContactHelper Modify(int v, ContactData oldData, ContactData newData)
         {
-            manager.Navigator.OpenHomePage();
-            if (IsCheckedContact() == false)
-            {
-                Create(oldData);
-            }
+            //manager.Navigator.OpenHomePage();
             InitContactModification(v);
             FillContact(newData);
             SubmitContactModification();
@@ -44,11 +40,7 @@ namespace WebAddressbookTests
 
         public ContactHelper Remove(int v, ContactData oldData)
         {
-            manager.Navigator.OpenHomePage();
-            if (IsCheckedContact() == false)
-            {
-                Create(oldData);
-            }
+            //manager.Navigator.OpenHomePage();
             SelectContact(v);
             DeleteContactFromList();
             driver.SwitchTo().Alert().Accept();
@@ -102,6 +94,7 @@ namespace WebAddressbookTests
 
         public bool IsCheckedContact()
         {
+            manager.Navigator.OpenHomePage();
             return IsElementPresent(By.XPath("//table[@id='maintable']/tbody//td/input"));
 
 

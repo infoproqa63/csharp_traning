@@ -17,6 +17,11 @@ namespace WebAddressbookTests
             ContactData oldData = new ContactData("Петр для удаления");
             oldData.LastName = "Петров для удаления";
 
+            if (app.Contact.IsCheckedContact() == false)
+            {
+                app.Contact.Create(oldData);
+            }
+
             app.Contact.Remove(1, oldData);
 
         }

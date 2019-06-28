@@ -17,6 +17,11 @@ namespace WebAddressbookTests
             oldData.Header = "хедер удаления";
             oldData.Footer = "футер удаления";
 
+            if (app.Group.IsCheckedElement() == false)
+            {
+                app.Group.Create(oldData);
+            }
+
             app.Group.Remove(1, oldData);
 
         }

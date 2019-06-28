@@ -21,6 +21,12 @@ namespace WebAddressbookTests
             newData.Header = "хедер";
             newData.Footer = "футер";
 
+
+            if (app.Group.IsCheckedElement() == false)
+            {
+                app.Group.Create(oldData);
+            }
+
             app.Group.Modify(1, oldData, newData);
 
         }
