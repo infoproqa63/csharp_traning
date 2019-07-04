@@ -9,7 +9,7 @@ namespace WebAddressbookTests
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
 
-        private string first_name = "";
+        private string first_name="";
         private string middle_name = "";
         private string last_name = "";
         private string nickname = "";
@@ -33,7 +33,7 @@ namespace WebAddressbookTests
         private string secondary_notes = "";
 
 
-        public ContactData(string first_name, string last_name)
+        public ContactData(string first_name ,string last_name)
         {
             this.first_name = first_name;
             this.last_name = last_name;
@@ -41,7 +41,7 @@ namespace WebAddressbookTests
         }
 
 
-        // ////////////////////////////
+          // ////////////////////////////
 
 
         public bool Equals(ContactData other)
@@ -55,19 +55,23 @@ namespace WebAddressbookTests
             {
                 return true;
             }
-            return FIO == other.FIO;
+            return LastName == other.LastName && FistName == other.FistName;
+
+            //return FIO == other.FIO;
             //return LastName == other.LastName;
         }
 
         public override int GetHashCode()
         {
-            return FIO.GetHashCode();
+            return LastName.GetHashCode() + FistName.GetHashCode();
+            //return FIO.GetHashCode();
             //return LastName.GetHashCode();
         }
 
         public override string ToString()
         {
-            return FIO;
+            return LastName + FistName;
+            //return FIO;
             //return "fio=" + LastName + FistName;
             //return "last_name=" + LastName;
         }
@@ -78,7 +82,9 @@ namespace WebAddressbookTests
             {
                 return 1;
             }
-            return FIO.CompareTo(other.FIO);
+
+            return LastName.CompareTo(other.LastName) + FistName.CompareTo(other.FistName);
+            //return FIO.CompareTo(other.FIO);
             //return LastName.CompareTo(other.LastName);
         }
 
@@ -387,5 +393,5 @@ namespace WebAddressbookTests
             }
         }
     }
-
+ 
 }

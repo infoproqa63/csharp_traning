@@ -13,9 +13,9 @@ namespace WebAddressbookTests
     public class ContactHelper : HelperBase
     {
         public ContactHelper(ApplicationManager manager) : base(manager)
-        {
+            {
 
-        }
+            }
 
 
 
@@ -34,6 +34,8 @@ namespace WebAddressbookTests
             manager.Navigator.OpenHomePage();
             ICollection<IWebElement> elements = driver.FindElements(By.XPath("//tr[@name='entry']"));
 
+            string lastName;
+            string firstName;
 
             foreach (IWebElement element in elements)
             {
@@ -41,14 +43,11 @@ namespace WebAddressbookTests
                 //ICollection<IWebElement> cells_first = new List<IWebElement>(element.FindElements(By.XPath("//*[@id='maintable']//td[3]")));
 
                 List<IWebElement> cells = new List<IWebElement>(element.FindElements(By.TagName("td")));
-
-                string lastName;
-                string firstName;
-
+                               
                 lastName = cells[1].Text;
                 firstName = cells[2].Text;
-
-                contacts.Add(new ContactData(firstName, lastName));
+                
+                contacts.Add(new ContactData (firstName, lastName));
 
                 //Debug.WriteLine(firstName);
                 //Debug.WriteLine(lastName);
@@ -56,7 +55,7 @@ namespace WebAddressbookTests
 
             //Debug.WriteLine(contacts);
             return contacts;
-
+            
         }
 
 
@@ -108,7 +107,7 @@ namespace WebAddressbookTests
         public ContactHelper SelectContact(int index)
         {
             //driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr["+index+"]/td/input")).Click();
-            driver.FindElement(By.XPath("//tr[@name='entry'][" + (index + 1) + "]//input[@name='selected[]']")).Click();
+            driver.FindElement(By.XPath("//tr[@name='entry'][" + (index+1) + "]//input[@name='selected[]']")).Click();
             return this;
         }
 
