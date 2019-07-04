@@ -9,7 +9,7 @@ namespace WebAddressbookTests
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
 
-        private string first_name="";
+        private string first_name = "";
         private string middle_name = "";
         private string last_name = "";
         private string nickname = "";
@@ -33,7 +33,7 @@ namespace WebAddressbookTests
         private string secondary_notes = "";
 
 
-        public ContactData(string first_name ,string last_name)
+        public ContactData(string first_name, string last_name)
         {
             this.first_name = first_name;
             this.last_name = last_name;
@@ -41,7 +41,7 @@ namespace WebAddressbookTests
         }
 
 
-          // ////////////////////////////
+        // ////////////////////////////
 
 
         public bool Equals(ContactData other)
@@ -393,5 +393,5 @@ namespace WebAddressbookTests
             }
         }
     }
- 
+
 }
