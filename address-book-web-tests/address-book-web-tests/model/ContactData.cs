@@ -8,35 +8,13 @@ namespace WebAddressbookTests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-
-        private string first_name = "";
-        private string middle_name = "";
-        private string last_name = "";
-        private string nickname = "";
-        private string photo = "";
-        private string title = "";
-        private string company = "";
-        private string address = "";
-        private string phone_home = "";
-        private string phone_mobile = "";
-        private string phone_work = "";
-        private string phone_fax = "";
-        private string email1 = "";
-        private string email2 = "";
-        private string email3 = "";
-        private string homepage = "";
-        private string birthday = "";
-        private string anniversary = "";
-        private string group = "";
-        private string secondary_address = "";
-        private string secondary_home = "";
-        private string secondary_notes = "";
-
+        private string allPhones;
+        private string allEmails;
 
         public ContactData(string first_name, string last_name)
         {
-            this.first_name = first_name;
-            this.last_name = last_name;
+            FistName = first_name;
+            LastName = last_name;
 
         }
 
@@ -57,24 +35,58 @@ namespace WebAddressbookTests
             }
             return LastName == other.LastName && FistName == other.FistName;
 
-            //return FIO == other.FIO;
-            //return LastName == other.LastName;
+
         }
 
         public override int GetHashCode()
         {
             return LastName.GetHashCode() + FistName.GetHashCode();
-            //return FIO.GetHashCode();
-            //return LastName.GetHashCode();
+
         }
 
         public override string ToString()
         {
             return LastName + FistName;
-            //return FIO;
-            //return "fio=" + LastName + FistName;
-            //return "last_name=" + LastName;
+
         }
+
+        //public int CompareTo(ContactData other)
+        //{
+        //    if (Object.ReferenceEquals(other, null))
+        //    {
+        //        return 1;
+        //    }
+
+        //    //if (Object.ReferenceEquals(this, other))
+        //    //{
+        //    //    return 1;
+        //    //}
+        //    //return LastName.CompareTo(other.LastName);
+
+        //    return LastName.CompareTo(other.LastName) + FistName.CompareTo(other.FistName);
+        //    //return FIO.CompareTo(other.FIO);
+        //    //return LastName.CompareTo(other.LastName);
+        //}
+
+        /// //////////////////////////////////
+
+        //public int CompareTo(ContactData other)
+        //{
+        //    if (Object.ReferenceEquals(other, null))
+        //    {
+        //        return 1;
+        //    }
+        //    if (LastName.CompareTo(other.LastName) == 1)
+        //    {
+        //        return FistName.CompareTo(other.FistName);
+        //    }
+        //    else
+        //    {
+        //        return LastName.CompareTo(other.LastName);
+        //    }
+
+        //}
+
 
         public int CompareTo(ContactData other)
         {
@@ -82,316 +94,114 @@ namespace WebAddressbookTests
             {
                 return 1;
             }
+            if (Object.ReferenceEquals(other.LastName, this.LastName))
+            {
+                Object.ReferenceEquals(other.FistName, this.FistName);
+                return 0;
+            }
+            else
+            {
+                return LastName.CompareTo(other.LastName);
+            }
 
-            return LastName.CompareTo(other.LastName) + FistName.CompareTo(other.FistName);
-            //return FIO.CompareTo(other.FIO);
-            //return LastName.CompareTo(other.LastName);
         }
 
-        /// //////////////////////////////////
 
-        public string FIO
+
+
+        public string FistName { get; set; }
+
+        public string MiddleName { get; set; }
+
+        public string LastName { get; set; }
+
+        public string Address { get; set; }
+
+        public string Nickname { get; set; }
+
+        public string Photo { get; set; }
+
+        public string Title { get; set; }
+
+        public string Company { get; set; }
+
+        public string PhoneHome { get; set; }
+
+        public string PhoneMobile { get; set; }
+
+        public string PhoneWork { get; set; }
+
+        public string AllPhones
         {
             get
             {
-                string fio;
-                fio = first_name + last_name;
-                return fio;
-            }
+                if (allPhones != null)
+                {
+                    return allPhones;
+                }
+                else
+                {
+                    return (CleanUp(PhoneHome) + CleanUp(PhoneMobile) + CleanUp(PhoneWork)).Trim();
+                }
 
+            }
             set
             {
-                string fio;
-                fio = first_name + last_name;
-                fio = value;
+                allPhones = value;
             }
         }
 
-        public string FistName
+        private string CleanUp(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+        }
+
+        public string PhoneFax { get; set; }
+
+        public string Email1 { get; set; }
+
+        public string Email2 { get; set; }
+
+        public string Email3 { get; set; }
+
+        public string AllEmails
         {
             get
             {
-                return first_name;
-            }
+                if (allEmails != null)
+                {
+                    return allEmails;
+                }
+                else
+                {
+                    return (Email1 + "\r\n" + Email2 + "\r\n" + Email3).Trim();
+                }
 
+            }
             set
             {
-                first_name = value;
+                allEmails = value;
             }
         }
 
-        public string MiddleName
-        {
-            get
-            {
-                return middle_name;
-            }
+        public string Homepage { get; set; }
 
-            set
-            {
-                middle_name = value;
-            }
-        }
+        public string Birthday { get; set; }
 
-        public string LastName
-        {
-            get
-            {
-                return last_name;
-            }
+        public string Anniversary { get; set; }
 
-            set
-            {
-                last_name = value;
-            }
-        }
+        public string Group { get; set; }
 
-        public string Nickname
-        {
-            get
-            {
-                return nickname;
-            }
+        public string SecondaryAddress { get; set; }
 
-            set
-            {
-                nickname = value;
-            }
-        }
+        public string SecondaryHome { get; set; }
 
-        public string Photo
-        {
-            get
-            {
-                return photo;
-            }
+        public string SecondaryNotes { get; set; }
 
-            set
-            {
-                photo = value;
-            }
-        }
-
-        public string Title
-        {
-            get
-            {
-                return title;
-            }
-
-            set
-            {
-                title = value;
-            }
-        }
-
-        public string Company
-        {
-            get
-            {
-                return company;
-            }
-
-            set
-            {
-                company = value;
-            }
-        }
-
-        public string Address
-        {
-            get
-            {
-                return address;
-            }
-
-            set
-            {
-                address = value;
-            }
-        }
-
-        public string PhoneHome
-        {
-            get
-            {
-                return phone_home;
-            }
-
-            set
-            {
-                phone_home = value;
-            }
-        }
-
-        public string PhoneMobile
-        {
-            get
-            {
-                return phone_mobile;
-            }
-
-            set
-            {
-                phone_mobile = value;
-            }
-        }
-
-        public string PhoneWork
-        {
-            get
-            {
-                return phone_work;
-            }
-
-            set
-            {
-                phone_work = value;
-            }
-        }
-
-        public string PhoneFax
-        {
-            get
-            {
-                return phone_fax;
-            }
-
-            set
-            {
-                phone_fax = value;
-            }
-        }
-
-        public string Email1
-        {
-            get
-            {
-                return email1;
-            }
-
-            set
-            {
-                email1 = value;
-            }
-        }
-
-        public string Email2
-        {
-            get
-            {
-                return email2;
-            }
-
-            set
-            {
-                email2 = value;
-            }
-        }
-
-        public string Email3
-        {
-            get
-            {
-                return email3;
-            }
-
-            set
-            {
-                email3 = value;
-            }
-        }
-
-        public string Homepage
-        {
-            get
-            {
-                return homepage;
-            }
-
-            set
-            {
-                homepage = value;
-            }
-        }
-
-        public string Birthday
-        {
-            get
-            {
-                return birthday;
-            }
-
-            set
-            {
-                birthday = value;
-            }
-        }
-
-        public string Anniversary
-        {
-            get
-            {
-                return anniversary;
-            }
-
-            set
-            {
-                anniversary = value;
-            }
-        }
-
-        public string Group
-        {
-            get
-            {
-                return group;
-            }
-
-            set
-            {
-                group = value;
-            }
-        }
-
-        public string SecondaryAddress
-        {
-            get
-            {
-                return secondary_address;
-            }
-
-            set
-            {
-                secondary_address = value;
-            }
-        }
-
-        public string SecondaryHome
-        {
-            get
-            {
-                return secondary_home;
-            }
-
-            set
-            {
-                secondary_home = value;
-            }
-        }
-
-        public string SecondaryNotes
-        {
-            get
-            {
-                return secondary_notes;
-            }
-
-            set
-            {
-                secondary_notes = value;
-            }
-        }
     }
 
 }
