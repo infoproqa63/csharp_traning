@@ -35,19 +35,23 @@ namespace WebAddressbookTests
             }
             return LastName == other.LastName && FistName == other.FistName;
 
-
+            //return FIO == other.FIO;
+            //return LastName == other.LastName;
         }
 
         public override int GetHashCode()
         {
             return LastName.GetHashCode() + FistName.GetHashCode();
-
+            //return FIO.GetHashCode();
+            //return LastName.GetHashCode();
         }
 
         public override string ToString()
         {
             return LastName + FistName;
-
+            //return FIO;
+            //return "fio=" + LastName + FistName;
+            //return "last_name=" + LastName;
         }
 
         //public int CompareTo(ContactData other)
@@ -178,7 +182,7 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return (Email1 + "\r\n" + Email2 + "\r\n" + Email3).Trim();
+                    return (CheckEmails(Email1) + "\r\n" + CheckEmails(Email2) + "\r\n" + CheckEmails(Email3)).Trim();
                 }
 
             }
@@ -186,6 +190,16 @@ namespace WebAddressbookTests
             {
                 allEmails = value;
             }
+        }
+
+
+        private string CheckEmails(string email)
+        {
+            if (email == null || email == "")
+            {
+                return "";
+            }
+            return email;
         }
 
         public string Homepage { get; set; }
