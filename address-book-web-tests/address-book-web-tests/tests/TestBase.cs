@@ -30,6 +30,7 @@ namespace WebAddressbookTests
                 builder.Append(Convert.ToChar(32 + Convert.ToInt32(rnd.NextDouble() * 223)));
             }
             return builder.ToString();
+
         }
 
     }

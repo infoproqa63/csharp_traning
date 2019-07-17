@@ -82,10 +82,9 @@ namespace WebAddressbookTests
             {
                 return 1;
             }
-            if (Object.ReferenceEquals(other.LastName, this.LastName))
+            if (LastName.CompareTo(other.LastName) == 0)
             {
-                Object.ReferenceEquals(other.FistName, this.FistName);
-                return 0;
+                return FistName.CompareTo(other.FistName);
             }
             else
             {
@@ -257,49 +256,49 @@ namespace WebAddressbookTests
         public string SecondaryNotes { get; set; }
 
 
-  /*      public string DetailedInformation
-        {
-            get
-            {
-                if (detailedInformation != null)
-                {
-                    return detailedInformation;
-                }
-                else
-                {
-                    return (GetFIOFromView + Nickname + Title + Company + Address + GetPhonesFromView +
-                        GetMailsFromView + GetHomepageFromView + fromatRNforString(Birthday) + fromatRNforString(Anniversary) + stringRN
-                        + fromatRNforString(SecondaryAddress) + stringRN + SecondaryNotes).Trim();
+        /*      public string DetailedInformation
+              {
+                  get
+                  {
+                      if (detailedInformation != null)
+                      {
+                          return detailedInformation;
+                      }
+                      else
+                      {
+                          return (GetFIOFromView + Nickname + Title + Company + Address + GetPhonesFromView +
+                              GetMailsFromView + GetHomepageFromView + fromatRNforString(Birthday) + fromatRNforString(Anniversary) + stringRN
+                              + fromatRNforString(SecondaryAddress) + stringRN + SecondaryNotes).Trim();
 
-                }
-            }
+                      }
+                  }
 
-            set
-            {
-                detailedInformation = value;
-            }
-        } */
+                  set
+                  {
+                      detailedInformation = value;
+                  }
+              } 
 
 
-        public string GetFIOFromView
-        {
-            get
-            {
-                if (allFIO != null)
-                {
-                    return allFIO;
-                }
-                else
-                {
-                    return FistName + " " + MiddleName + " " + LastName + stringRN;
-                }
-            }
+              public string GetFIOFromView
+              {
+                  get
+                  {
+                      if (allFIO != null)
+                      {
+                          return allFIO;
+                      }
+                      else
+                      {
+                          return FistName + " " + MiddleName + " " + LastName + stringRN;
+                      }
+                  }
 
-            set
-            {
-                allFIO = value;
-            }
-        }
+                  set
+                  {
+                      allFIO = value;
+                  }
+              } */
 
 
 
