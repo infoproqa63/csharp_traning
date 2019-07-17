@@ -24,21 +24,32 @@ namespace WebAddressbookTests
         }
 
 
-        //[Test]
-        //public void TestContactTest()
-        //{
-        //    {
-        //        ContactData fromViewForm = app.Contact.GetContactInformationFromViewForm(0);
-        //        ContactData fromEditForm = app.Contact.GetContactInformationFromEditForm(0);
+        [Test]
+        public void TestContactInformationEditFormAndDetails()
+        {
+            ContactData fromDetails = app.Contact.GetContactInformationFromDetails(0);
+            ContactData fromForm = app.Contact.GetContactInformationFromEditForm(0);
+
+            //verifications
+            Assert.AreEqual(fromDetails.AllInfo, fromForm.AllInfo);
+        }
 
 
-        //        Console.WriteLine(fromViewForm.DetailedInformation);
-        //        Console.WriteLine(fromEditForm.DetailedInformation);
-        //        Console.WriteLine("111");
-        //        Assert.AreEqual(fromViewForm.DetailedInformation, fromEditForm.DetailedInformation);
+            //[Test]
+            //public void TestContactTest()
+            //{
+            //    {
+            //        ContactData fromViewForm = app.Contact.GetContactInformationFromViewForm(0);
+            //        ContactData fromEditForm = app.Contact.GetContactInformationFromEditForm(0);
 
 
-        //    }
-        //}
-    }
+            //        Console.WriteLine(fromViewForm.DetailedInformation);
+            //        Console.WriteLine(fromEditForm.DetailedInformation);
+            //        Console.WriteLine("111");
+            //        Assert.AreEqual(fromViewForm.DetailedInformation, fromEditForm.DetailedInformation);
+
+
+            //    }
+            //}
+        }
 }

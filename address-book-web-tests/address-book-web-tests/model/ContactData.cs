@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace WebAddressbookTests
@@ -23,6 +24,7 @@ namespace WebAddressbookTests
         private string allMailsView;
         private string bYear;
         private int fullBYears;
+        private string allInfo;
 
         public ContactData(string first_name, string last_name)
         {
@@ -121,8 +123,8 @@ namespace WebAddressbookTests
 
         }
 
-        //public string Nickname { get; set; }
-        public string Nickname
+        public string Nickname { get; set; }
+    /*    public string Nickname
         {
             get
             {
@@ -142,48 +144,15 @@ namespace WebAddressbookTests
                 nickname = value;
             }
         }
+        */
 
 
 
         public string Photo { get; set; }
 
-        public string Title
-        {
-            get
-            {
-                if (title != null || title == "")
-                {
-                    return fromatRNforString(title);
-                }
-                else return fromatRNforString(title);
+        public string Title { get; set; }
 
-            }
-
-            set
-            {
-                title = value;
-            }
-
-        }
-
-        public string Company
-        {
-            get
-            {
-                if (company != null || company == "")
-                {
-                    return fromatRNforString(company);
-                }
-                else return fromatRNforString(company);
-
-            }
-
-            set
-            {
-                company = value;
-            }
-        }
-
+        public string Company { get; set; }
         public string PhoneHome { get; set; }
 
         public string PhoneMobile { get; set; }
@@ -277,61 +246,7 @@ namespace WebAddressbookTests
             }
         }
 
-        public string Birthday { get; set; }
-        public string Bday { get; set; }
-        public string Bmonth { get; set; }
-        public string Byear
-        {
-            get
-            {
-                if (bYear != null)
-                {
-                    return bYear;
-                }
-                else
-                {
-                    return bYear;
-                }
-            }
 
-            set
-            {
-                bYear = value;
-            }
-        }
-
-        public string Anniversary { get; set; }
-
-        //public string FullBYear
-        //{
-        //    get
-        //    {
-        //        int currentYear;
-        //        currentYear = Convert.ToInt32(DateTime.Now.Year);
-
-        //        if (Byear == null)
-        //        {
-        //            return "";
-        //        }
-        //        else
-        //        {
-        //           //return currentYear;
-        //            fullBYears = currentYear - Convert.ToInt32(bYear);
-        //            return fullBYears;
-        //        }
-
-        //    }
-
-        //    set
-        //    {
-        //        fullBYears = value;
-        //    }
-
-        //}
-
-        public string Aday { get; set; }
-        public string Amonth { get; set; }
-        public string Ayear { get; set; }
 
         public string Group { get; set; }
 
@@ -342,7 +257,7 @@ namespace WebAddressbookTests
         public string SecondaryNotes { get; set; }
 
 
-        public string DetailedInformation
+  /*      public string DetailedInformation
         {
             get
             {
@@ -363,7 +278,7 @@ namespace WebAddressbookTests
             {
                 detailedInformation = value;
             }
-        }
+        } */
 
 
         public string GetFIOFromView
@@ -457,6 +372,31 @@ namespace WebAddressbookTests
                 allPhonesView = value;
             }
 
+        }
+
+        public string AllInfo
+        {
+            get
+            {
+                if (allInfo != null)
+                {
+                    return allInfo;
+                }
+                else
+                {
+                    return fromatRNforString(FistName) + fromatRNforString(MiddleName)
+                        + fromatRNforString(LastName) + fromatRNforString(Nickname) + fromatRNforString(Title) + fromatRNforString(Company) + fromatRNforString(Address)
+
+                        + fromatRNforString(PhoneHome) + fromatRNforString(PhoneMobile) + fromatRNforString(PhoneWork) + fromatRNforString(PhoneFax)
+
+                       + fromatRNforString(Email1) + fromatRNforString(Email2) + fromatRNforString(Email3) + Regex.Replace(fromatRNforString(Homepage), "http://", "");
+
+                }
+            }
+            set
+            {
+                allInfo = Regex.Replace(Regex.Replace(Regex.Replace(Regex.Replace(Regex.Replace(Regex.Replace(Regex.Replace(value, "Homepage:", ""), "F: ", ""), "W: ", ""), "M: ", ""), "H: ", ""), " ", "\r\n"), "\r\n\r\n", "\r\n") + "\r\n";
+            }
         }
 
 

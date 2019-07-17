@@ -223,16 +223,6 @@ namespace WebAddressbookTests
                 Email3 = email3,
                 MiddleName = middlename,
                 Nickname = nickname,
-                Bday = bDay,
-                //Bmonth = bMonth,
-                //Byear = bYear,
-                //Aday = aDay,
-                //Amonth = aMonth,
-                //Ayear = aYear,
-                //Birthday = bDay + bMonth + bYear + fullYears,
-                //Anniversary = aDay + aMonth + aYear,
-                SecondaryAddress = address2,
-                SecondaryNotes = notes,
                 Company = company,
                 Title = title,
                 PhoneFax = faxPhone
@@ -242,7 +232,7 @@ namespace WebAddressbookTests
 
 
 
-        public ContactData GetContactInformationFromViewForm(int index)
+   /*     public ContactData GetContactInformationFromViewForm(int index)
         {
             manager.Navigator.OpenHomePage();
             InitContactViewForm(index);
@@ -256,7 +246,7 @@ namespace WebAddressbookTests
                 DetailedInformation = content
             };
 
-        }
+        } */
 
 
 
@@ -295,6 +285,25 @@ namespace WebAddressbookTests
 
         }
 
+        public ContactData GetContactInformationFromDetails(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            InitContactViewDetails(index);
+            String text = driver.FindElement(By.Id("content")).Text;
+            Debug.WriteLine(text);
+            return new ContactData("", "")
+            {
+                AllInfo = text
+            };
+
+            throw new NotImplementedException();
+        }
+        private ContactHelper InitContactViewDetails(int v)
+        {
+            driver.FindElement(By.XPath("//tr[@name='entry'][" + (v + 1) + "]//img[@title='Details']")).Click();
+            return this;
+        }
+
 
         public string GetAnniversaryFromEditForm(int index)
         {
@@ -321,6 +330,8 @@ namespace WebAddressbookTests
             return "Anniversary " + aday + ". " + Char.ToUpper(amonth[0]) + amonth.Substring(1) + " " + ayear_int + " (" + fullYears + ")";
 
         }
+
+
 
 
     }
