@@ -373,6 +373,90 @@ namespace WebAddressbookTests
 
         }
 
+        private string CheckNotNull(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return phone + "\r\n";
+        }
+
+        private string CheckHomePhone(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return "H: " + phone + "\r\n";
+        }
+
+        private string CheckWorkPhone(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return "W: " + phone + "\r\n";
+        }
+
+        private string CheckMobilePhone(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return "M: " + phone + "\r\n";
+        }
+
+        private string CheckFaxPhone(string phone)
+        {
+            if (phone == null || phone == "")
+            {
+                return "";
+            }
+            return "F: " + phone + "\r\n";
+        }
+
+        private string CheckHomepage(string page)
+        {
+            if (page == null || page == "")
+            {
+                return "";
+            }
+            return "Homepage:\r\n" + Regex.Replace(page, "http://", "") + "\r\n";
+        }
+
+        private string CheckName(string name)
+        {
+            if (name == null || name == "")
+            {
+                return "";
+            }
+            return name + " ";
+        }
+
+        public static string ReplaceLastOccurrence(string Source, string Find, string Replace)
+        {
+            if (Source == null || Source == "")
+            {
+                return "";
+            }
+            else
+            {
+                int place = Source.LastIndexOf(Find);
+
+                if (place == -1)
+                {
+                    return Source;
+                }
+
+                string result = Source.Remove(place, Find.Length).Insert(place, Replace);
+                return result;
+
+            }
+        }
+
         public string AllInfo
         {
             get
@@ -383,18 +467,19 @@ namespace WebAddressbookTests
                 }
                 else
                 {
-                    return fromatRNforString(FistName) + fromatRNforString(MiddleName)
-                        + fromatRNforString(LastName) + fromatRNforString(Nickname) + fromatRNforString(Title) + fromatRNforString(Company) + fromatRNforString(Address)
+                    string res = CheckNotNull(CheckName(FistName) + CheckName(MiddleName)
+                        + CheckNotNull(LastName) + CheckNotNull(Nickname) + CheckNotNull(Title) + CheckNotNull(Company) + CheckNotNull(Address))
 
-                        + fromatRNforString(PhoneHome) + fromatRNforString(PhoneMobile) + fromatRNforString(PhoneWork) + fromatRNforString(PhoneFax)
+                        + CheckNotNull(CheckHomePhone(PhoneHome) + CheckMobilePhone(PhoneMobile) + CheckWorkPhone(PhoneWork) + CheckFaxPhone(PhoneFax))
 
-                       + fromatRNforString(Email1) + fromatRNforString(Email2) + fromatRNforString(Email3) + Regex.Replace(fromatRNforString(Homepage), "http://", "");
+                       + CheckNotNull(Email1) + CheckNotNull(Email2) + CheckNotNull(Email3) + CheckHomepage(Homepage);
 
+                    return ReplaceLastOccurrence(res, "\r\n", "");
                 }
             }
             set
             {
-                allInfo = Regex.Replace(Regex.Replace(Regex.Replace(Regex.Replace(Regex.Replace(Regex.Replace(Regex.Replace(value, "Homepage:", ""), "F: ", ""), "W: ", ""), "M: ", ""), "H: ", ""), " ", "\r\n"), "\r\n\r\n", "\r\n") + "\r\n";
+                allInfo = value;
             }
         }
 
