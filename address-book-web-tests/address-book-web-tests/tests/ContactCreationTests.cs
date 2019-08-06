@@ -11,7 +11,7 @@ using NUnit.Framework;
 namespace WebAddressbookTests
 {
     [TestFixture]
-    public class ContactCreationTests : AuthTestBase
+    public class ContactCreationTests : GroupTestBase
     {
 
         public static IEnumerable<ContactData> RandomContactDataProvider()
@@ -46,12 +46,12 @@ namespace WebAddressbookTests
         public void ContactCreationTest(ContactData contact)
         {
 
-            List<ContactData> oldContacts = app.Contact.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAll();
 
 
             app.Contact.Create(contact);
 
-            List<ContactData> newContacts = app.Contact.GetContactList();
+            List<ContactData> newContacts = ContactData.GetAll();
             oldContacts.Add(contact);
             oldContacts.Sort();
             newContacts.Sort();
@@ -59,5 +59,27 @@ namespace WebAddressbookTests
 
 
         }
+
+
+        [Test]
+        public void TestDBConnectivityContact()
+        {
+
+            List<ContactData> oldContacts = ContactData.GetAll();
+            ContactData toBeRemoved = oldContacts[0];
+            System.Console.Out.WriteLine(toBeRemoved.Id);
+
+            //DateTime start = DateTime.Now;
+            //List<ContactData> fromUI = app.Contact.GetContactList();
+            //DateTime end = DateTime.Now;
+            //System.Console.Out.WriteLine(end.Subtract(start));
+
+            //start = DateTime.Now;
+            //List<ContactData> fromDB = ContactData.GetAll();
+
+            //end = DateTime.Now;
+            //System.Console.Out.WriteLine(end.Subtract(start));
+        }
+
     }
 }
