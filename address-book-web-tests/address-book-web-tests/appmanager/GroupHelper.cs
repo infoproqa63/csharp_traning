@@ -51,6 +51,8 @@ namespace WebAddressbookTests
             return new List<GroupData>(groupCache);
         }
 
+
+
         public GroupHelper Modify(int v, GroupData oldData, GroupData newData)
         {
 
@@ -63,6 +65,20 @@ namespace WebAddressbookTests
             return this;
         }
 
+        public GroupHelper Modify(GroupData group, GroupData newData)
+        {
+
+            manager.Navigator.OpenGroupPage();
+            SelectGroup(group.Id);
+            InitGroupModification();
+            FillGroup(newData);
+            SubmitGroupModification();
+            manager.Navigator.OpenGroupPage();
+            return this;
+        }
+
+
+
         public GroupHelper Remove(int v, GroupData oldData)
         {
             //manager.Navigator.OpenGroupPage();
@@ -70,6 +86,16 @@ namespace WebAddressbookTests
             RemoveGroup();
             manager.Navigator.OpenGroupPage();
             return this;
+        }
+
+        public GroupHelper Remove(GroupData group)
+        {
+            manager.Navigator.OpenGroupPage();
+            SelectGroup(group.Id);
+            RemoveGroup();
+            manager.Navigator.OpenGroupPage();
+            return this;
+
         }
 
         public GroupHelper InitGropCreation()
@@ -88,6 +114,12 @@ namespace WebAddressbookTests
         public GroupHelper SelectGroup(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
+            return this;
+        }
+
+        public GroupHelper SelectGroup(String id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='" + id + "'])")).Click();
             return this;
         }
 
@@ -126,6 +158,15 @@ namespace WebAddressbookTests
             manager.Navigator.OpenGroupPage();
             return IsElementPresent(By.XPath("//*[@id='content']/form/span/input"));
 
+        }
+
+        public void CreateGroupIfNoGroups(GroupData group)
+        {
+            manager.Navigator.OpenGroupPage();
+            if (!IsElementPresent(By.CssSelector("form span:nth-child(5)")))
+            {
+                Create(group);
+            }
         }
 
     }

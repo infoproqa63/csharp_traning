@@ -30,32 +30,50 @@ namespace WebAddressbookTests
 
         private List<ContactData> contactCache = null;
 
+        //public List<ContactData> GetContactList()
+        //{
+        //    if (contactCache == null)
+        //    {
+        //        contactCache = new List<ContactData>();
+        //        manager.Navigator.OpenHomePage();
+        //        ICollection<IWebElement> elements = driver.FindElements(By.XPath("//tr[@name='entry']"));
+
+        //        string lastName;
+        //        string firstName;
+
+        //        foreach (IWebElement element in elements)
+        //        {
+
+        //            List<IWebElement> cells = new List<IWebElement>(element.FindElements(By.TagName("td")));
+
+        //            lastName = cells[1].Text;
+        //            firstName = cells[2].Text;
+
+        //            contactCache.Add(new ContactData(firstName, lastName));
+        //        }
+
+        //    }
+
+        //    return new List<ContactData>(contactCache);
+
+        //}
+
         public List<ContactData> GetContactList()
         {
             if (contactCache == null)
             {
                 contactCache = new List<ContactData>();
                 manager.Navigator.OpenHomePage();
-                ICollection<IWebElement> elements = driver.FindElements(By.XPath("//tr[@name='entry']"));
-
-                string lastName;
-                string firstName;
-
+                List<ContactData> contacts = new List<ContactData>();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("[name='entry']"));
                 foreach (IWebElement element in elements)
                 {
-
-                    List<IWebElement> cells = new List<IWebElement>(element.FindElements(By.TagName("td")));
-
-                    lastName = cells[1].Text;
-                    firstName = cells[2].Text;
-
-                    contactCache.Add(new ContactData(firstName, lastName));
+                    string lastName = element.FindElement(By.CssSelector("td:nth-child(2)")).Text;
+                    string fistName = element.FindElement(By.CssSelector("td:nth-child(3)")).Text;
+                    contactCache.Add(new ContactData(fistName, lastName));
                 }
-
             }
-
             return new List<ContactData>(contactCache);
-
         }
 
 
@@ -79,6 +97,18 @@ namespace WebAddressbookTests
             manager.Navigator.OpenHomePage();
             return this;
         }
+
+
+        public ContactHelper Remove(ContactData contact)
+        {
+            manager.Navigator.OpenHomePage();
+            SelectContact(contact.Id);
+            DeleteContactFromList();
+            driver.SwitchTo().Alert().Accept();
+            manager.Navigator.OpenHomePage();
+            return this;
+        }
+
 
         public ContactHelper DeleteContactFromList()
         {
@@ -111,6 +141,12 @@ namespace WebAddressbookTests
         {
             //driver.FindElement(By.XPath("//table[@id='maintable']/tbody/tr["+index+"]/td/input")).Click();
             driver.FindElement(By.XPath("//tr[@name='entry'][" + (index + 1) + "]//input[@name='selected[]']")).Click();
+            return this;
+        }
+
+        public ContactHelper SelectContact(string id)
+        {
+            driver.FindElement(By.XPath("//input[@id=" + id + "]")).Click();
             return this;
         }
 
@@ -232,21 +268,21 @@ namespace WebAddressbookTests
 
 
 
-   /*     public ContactData GetContactInformationFromViewForm(int index)
-        {
-            manager.Navigator.OpenHomePage();
-            InitContactViewForm(index);
+        /*     public ContactData GetContactInformationFromViewForm(int index)
+             {
+                 manager.Navigator.OpenHomePage();
+                 InitContactViewForm(index);
 
-            string content = driver.FindElement(By.XPath("//*[@id='content']")).Text;
-            //string content2 = driver.FindElement(By.XPath("//*[@id='content']")).Text;
+                 string content = driver.FindElement(By.XPath("//*[@id='content']")).Text;
+                 //string content2 = driver.FindElement(By.XPath("//*[@id='content']")).Text;
 
-            //return content;
-            return new ContactData()
-            {
-                DetailedInformation = content
-            };
+                 //return content;
+                 return new ContactData()
+                 {
+                     DetailedInformation = content
+                 };
 
-        } */
+             } */
 
 
 
@@ -259,31 +295,31 @@ namespace WebAddressbookTests
         }
 
 
-        public string GetBirthdayFromEditForm(int index)
-        {
-            manager.Navigator.OpenHomePage();
-            InitContactModification(index);
+        //public string GetBirthdayFromEditForm(int index)
+        //{
+        //    manager.Navigator.OpenHomePage();
+        //    InitContactModification(index);
 
-            int currentYear;
-            int fullYears;
-            string bday = driver.FindElement(By.Name("bday")).GetAttribute("value");
-            string bmonth = driver.FindElement(By.Name("bmonth")).GetAttribute("value");
-            string byear_int = driver.FindElement(By.Name("byear")).GetAttribute("value");
-            if (byear_int == null || byear_int == "")
-            {
-                return "0";
-            }
-            else
-            {
-                return byear_int;
-            }
+        //    int currentYear;
+        //    int fullYears;
+        //    string bday = driver.FindElement(By.Name("bday")).GetAttribute("value");
+        //    string bmonth = driver.FindElement(By.Name("bmonth")).GetAttribute("value");
+        //    string byear_int = driver.FindElement(By.Name("byear")).GetAttribute("value");
+        //    if (byear_int == null || byear_int == "")
+        //    {
+        //        return "0";
+        //    }
+        //    else
+        //    {
+        //        return byear_int;
+        //    }
 
-            currentYear = DateTime.Now.Year;
-            fullYears = currentYear - Convert.ToInt32(byear_int);
+        //    currentYear = DateTime.Now.Year;
+        //    fullYears = currentYear - Convert.ToInt32(byear_int);
 
-            return "Birthday " + bday + ". " + bmonth + " " + byear_int + " (" + fullYears + ")";
+        //    return "Birthday " + bday + ". " + bmonth + " " + byear_int + " (" + fullYears + ")";
 
-        }
+        //}
 
         public ContactData GetContactInformationFromDetails(int index)
         {
@@ -298,38 +334,80 @@ namespace WebAddressbookTests
 
             throw new NotImplementedException();
         }
-        private ContactHelper InitContactViewDetails(int v)
+        public ContactHelper InitContactViewDetails(int v)
         {
             driver.FindElement(By.XPath("//tr[@name='entry'][" + (v + 1) + "]//img[@title='Details']")).Click();
             return this;
         }
 
+        public void ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
+        }
 
-        public string GetAnniversaryFromEditForm(int index)
+        //public void SelectFirstByCheckBox()
+        //{
+        //    driver.FindElement(By.CssSelector("tbody tr:nth-child(2) td:first-child")).Click();
+        //}
+
+        private void CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+        }
+
+
+        //public void AddFirstContactToFirstGroup()
+        //{
+        //    manager.Navigator.OpenHomePage();
+        //    ClearGroupFilter();
+        //    SelectFirstByCheckBox();
+        //    CommitAddingContactToGroup();
+        //    new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+        //            .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+        //}
+
+
+        private void SelectGroup(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+        }
+
+        private void SelectGroupFilter(GroupData group)
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText($"{group.Name}");
+        }
+
+
+
+        private void CommitDeletingContactFromGroup()
+        {
+            driver.FindElement(By.Name("remove")).Click();
+        }
+
+        internal void DeleteContactFromGroup(ContactData contactToDelete, GroupData group)
         {
             manager.Navigator.OpenHomePage();
-            InitContactModification(index);
-
-            int currentYear;
-            int fullYears;
-            string aday = driver.FindElement(By.Name("aday")).GetAttribute("value");
-            string amonth = driver.FindElement(By.Name("amonth")).GetAttribute("value");
-            string ayear_int = driver.FindElement(By.Name("ayear")).GetAttribute("value");
-            if (ayear_int == null || ayear_int == "")
-            {
-                return "0";
-            }
-            else
-            {
-                return ayear_int;
-            }
-
-            currentYear = DateTime.Now.Year;
-            fullYears = currentYear - Convert.ToInt32(ayear_int);
-
-            return "Anniversary " + aday + ". " + Char.ToUpper(amonth[0]) + amonth.Substring(1) + " " + ayear_int + " (" + fullYears + ")";
-
+            SelectGroupFilter(group);
+            SelectContact(contactToDelete.Id);
+            SelectGroup(group.Name);
+            CommitDeletingContactFromGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                    .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
         }
+
+
+        public void AddContactToGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.OpenHomePage();
+            ClearGroupFilter();
+            SelectContact(contact.Id);
+            SelectGroup(group.Name);
+            CommitAddingContactToGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10))
+                    .Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+        }
+
+
 
 
 

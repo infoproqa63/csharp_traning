@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using LinqToDB.Mapping;
 
 namespace WebAddressbookTests
 {
+    [Table(Name = "addressbook")]
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         private string allPhones;
@@ -93,13 +95,22 @@ namespace WebAddressbookTests
 
         }
 
+        [Column(Name = "id"), PrimaryKey, Identity]
+        public string Id { get; set; }
 
+
+
+
+        [Column(Name = "firstname")]
         public string FistName { get; set; }
 
+        [Column(Name = "middlename")]
         public string MiddleName { get; set; }
 
+        [Column(Name = "lastname")]
         public string LastName { get; set; }
 
+        [Column(Name = "address")]
         public string Address
         {
             get
@@ -123,29 +134,6 @@ namespace WebAddressbookTests
         }
 
         public string Nickname { get; set; }
-    /*    public string Nickname
-        {
-            get
-            {
-                if (nickname != null || nickname == "")
-                {
-                    return nickname + stringRN;
-                }
-                else
-                {
-                    return nickname + stringRN;
-                }
-            }
-
-
-            set
-            {
-                nickname = value;
-            }
-        }
-        */
-
-
 
         public string Photo { get; set; }
 
@@ -492,6 +480,37 @@ namespace WebAddressbookTests
             }
             return thisString + "\r\n";
         }
+
+
+        [Column(Name = "deprecated")]
+        public string Deprecated { get; set; }
+
+
+
+        public static List<ContactData> GetAll()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from c in db.Contacts.Where(x => x.Deprecated == "0000-00-00 00:00:00") select c).ToList();
+            }
+        }
+
+        public static List<ContactData> GetContactsWithGroup()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return db.Contacts.Where(x => x.Deprecated == "0000-00-00 00:00:00" && db.GCR.Select(y => y.ContactId).Contains(x.Id)).ToList();
+            }
+        }
+
+        public static List<ContactData> GetContactsWithoutGroup()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return db.Contacts.Where(x => x.Deprecated == "0000-00-00 00:00:00" && !db.GCR.Select(y => y.ContactId).Contains(x.Id)).ToList();
+            }
+        }
+
 
 
     }
